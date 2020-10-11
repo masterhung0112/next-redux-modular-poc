@@ -3,6 +3,9 @@ import { useRouter } from 'next/router'
 import { PageTransition } from 'next-page-transitions'
 import { Navigation } from './navigation'
 import { Clock } from '../clock'
+import { ClockModule } from '../../modules/clock/module'
+import { DynamicModuleLoader } from 'redux-dynamic-modules'
+import { Loader } from './loader'
 
 const TIMEOUT = 400
 
@@ -12,10 +15,12 @@ const Layout: FC = ({ children }) => {
   return (
     <>
       <Navigation />
-      <Clock />
+      <DynamicModuleLoader modules={[ClockModule]}>
+        <Clock />
+      </DynamicModuleLoader>
       {/* <Xkcd small />
       <Dog /> */}
-      {/* <PageTransition
+      <PageTransition
         skipInitialTransition
         timeout={TIMEOUT}
         classNames='page-transition'
@@ -25,7 +30,7 @@ const Layout: FC = ({ children }) => {
         loadingClassNames='loading-indicator'
       >
         <Fragment key={router.route}>{children}</Fragment>
-      </PageTransition> */}
+      </PageTransition>
       <style jsx global>{`
         .page-transition-enter {
           opacity: 0;
