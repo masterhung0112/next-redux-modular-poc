@@ -15,12 +15,18 @@ const clockInitialState = {
 //     }
 // }, clockInitialState)
 
-export const clockReducer = (state: ClockState, action: ClockActionsUnion): ClockState => {
-    return produce(clockInitialState, draft => {
+export const clockReducer = (state: ClockState | undefined, action: ClockActionsUnion): ClockState => {
+    // return produce(clockInitialState, draft => {
         switch (action.type) {
             case ClockActionType.TICK_CLOCK:
-                draft.lastUpdate = action.payload
+                console.log('update c', action.payload)
+                // draft.lastUpdate = action.payload
+                return {
+                    ...state,
+                    lastUpdate: action.payload
+                }
                 break
         }
-    })
+        return state ?? clockInitialState
+    // })
 }

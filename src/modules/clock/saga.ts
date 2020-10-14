@@ -11,6 +11,8 @@ function* clockWorker() {
 
 export function* startClockWatcher() {
     if (typeof window === 'undefined') {
+        console.log('watcher start')
+
         yield put(ClockReducerAction.tickClock())
         return
     }

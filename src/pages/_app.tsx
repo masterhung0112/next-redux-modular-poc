@@ -5,6 +5,8 @@ import { DynamicModuleLoader, IModuleStore } from 'redux-dynamic-modules'
 import { Layout } from '../components/layout/layout'
 import App, { AppContext, AppInitialProps } from 'next/app'
 import { END } from 'redux-saga'
+import { SagaStore } from '../store/createStore'
+import { allSagasDone } from '../store/all-sagas-done'
 
 class WrappedApp extends App<AppInitialProps> {
   public static getInitialProps = async ({Component, ctx}: AppContext) => {
@@ -19,7 +21,13 @@ class WrappedApp extends App<AppInitialProps> {
         // ctx["moduleManager"].
 
           // ctx.store.dispatch(END);
-          // await (ctx.store as SagaStore).sagaTask.toPromise();
+        const sagaStore = ctx.store as SagaStore
+        const tasks = sagaStore ? sagaStore.getSagaTasks() : undefined
+        if (tasks) {
+            console.log('req now new ', tasks.length)
+
+            await allSagasDone(tasks)
+        }
       }
 
       // 3. Return props

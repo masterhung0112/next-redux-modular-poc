@@ -1,4 +1,6 @@
+import { IItemManager } from "redux-dynamic-modules";
 import { IModule } from "redux-dynamic-modules-core";
+import { Task } from "redux-saga";
 
 export interface ISagaWithArguments<T> {
     saga: (argument?: T) => Iterator<any>;
@@ -10,4 +12,8 @@ export type ISagaRegistration<T> =
 
 export interface ISagaModule<T> extends IModule<T> {
     sagas?: ISagaRegistration<any>[];
+}
+
+export interface ISagaItemManager<T> extends IItemManager<T> {
+    getTasks: () => Task[]
 }

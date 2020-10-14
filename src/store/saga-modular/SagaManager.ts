@@ -1,4 +1,4 @@
-import { ISagaRegistration, ISagaWithArguments } from "./Contracts";
+import { ISagaItemManager, ISagaRegistration, ISagaWithArguments } from "./Contracts";
 import { SagaMiddleware, Task } from "redux-saga";
 import { sagaEquals } from "./SagaComparer";
 import { IItemManager, getMap } from "redux-dynamic-modules-core";
@@ -8,13 +8,13 @@ import { IItemManager, getMap } from "redux-dynamic-modules-core";
  */
 export function getSagaManager(
     sagaMiddleware: SagaMiddleware<any>
-): IItemManager<ISagaRegistration<any>> & { tasks: () => Task[] } {
+): ISagaItemManager<ISagaRegistration<any>> {
     const tasks = getMap<ISagaRegistration<any>, Task>(sagaEquals);
 
     return {
         getTasks: (): Task[] => {
             const taskArr: Task[] = []
-            tasks.keys.forEach(k => taskArr = taskArr.push(tasks.get(k)))
+            tasks.keys.forEach(k => taskArr.push(tasks.get(k)))
             return taskArr
         },
         getItems: (): ISagaRegistration<any>[] => [...tasks.keys],

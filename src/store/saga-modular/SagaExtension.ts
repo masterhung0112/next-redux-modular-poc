@@ -5,15 +5,20 @@ import {
     getRefCountedManager,
     IModuleManager,
 } from "redux-dynamic-modules-core";
-import { ISagaRegistration, ISagaModule } from "./Contracts";
+import { ISagaRegistration, ISagaModule, ISagaItemManager } from "./Contracts";
 import { getSagaManager } from "./SagaManager";
 import { sagaEquals } from "./SagaComparer";
+
+export type SagaExtensionContext = {
+    moduleManager?: IModuleManager
+    sagaManager?: ISagaItemManager<ISagaRegistration<any>>
+} & Record<string, any>
 
 /**
  * Get an extension that integrates saga with the store
  * @param sagaContext The context to provide to the saga
  */
-export function getSagaExtension<C extends Record<string, any> = {}>(
+export function getSagaExtension<C extends SagaExtensionContext>(
     sagaContext?: C,
     onError?: (error: Error) => void
 ): IExtension {
@@ -31,7 +36,7 @@ export function getSagaExtension<C extends Record<string, any> = {}>(
         onError,
     });
 
-    let _sagaManager: IItemManager<
+    let _sagaManager: ISagaItemManager<
         ISagaRegistration<any>
     > = getRefCountedManager(getSagaManager(sagaMiddleware), sagaEquals);
 
@@ -41,6 +46,7 @@ export function getSagaExtension<C extends Record<string, any> = {}>(
         onModuleManagerCreated: (moduleManager: IModuleManager) => {
             if (sagaContext) {
                 sagaContext['moduleManager'] = moduleManager
+                sagaContext['sagaManager'] = _sagaManager
             }
         },
 
