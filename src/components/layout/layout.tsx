@@ -6,6 +6,8 @@ import { Clock } from '../clock'
 import { ClockModule } from '../../modules/clock/module'
 import { DynamicModuleLoader } from 'redux-dynamic-modules'
 import { Loader } from './loader'
+import { Dog } from '../dog'
+import { DogModule } from '../../modules/dog/module'
 
 const TIMEOUT = 400
 
@@ -18,8 +20,10 @@ const Layout: FC = ({ children }) => {
       <DynamicModuleLoader modules={[ClockModule]}>
         <Clock />
       </DynamicModuleLoader>
-      {/* <Xkcd small />
-      <Dog /> */}
+      {/* <Xkcd small />*/}
+      <DynamicModuleLoader modules={[DogModule]}>
+        <Dog /> 
+      </DynamicModuleLoader>
       <PageTransition
         skipInitialTransition
         timeout={TIMEOUT}

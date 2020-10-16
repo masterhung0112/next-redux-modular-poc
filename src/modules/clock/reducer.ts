@@ -19,7 +19,6 @@ export const clockReducer = (state: ClockState | undefined, action: ClockActions
     // return produce(clockInitialState, draft => {
         switch (action.type) {
             case ClockActionType.TICK_CLOCK:
-                console.log('update c', action.payload)
                 // draft.lastUpdate = action.payload
                 return {
                     ...state,
