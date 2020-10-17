@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import { wrapper } from '../store'
 import { ClockModule } from '../modules/clock/module'
-import { DynamicModuleLoader, IModuleStore } from 'redux-dynamic-modules'
+import { IModuleStore } from 'redux-dynamic-modules'
 import { Layout } from '../components/layout/layout'
 import App, { AppContext, AppInitialProps } from 'next/app'
 import { END } from 'redux-saga'
@@ -22,7 +22,7 @@ class WrappedApp extends App<AppInitialProps> {
 
           // ctx.store.dispatch(END);
         const sagaStore = ctx.store as SagaStore
-        const tasks = sagaStore ? sagaStore.getSagaTasks() : undefined
+        const tasks = sagaStore?.getSagaTasks()
         if (tasks) {
             console.log('req now new ', tasks.length)
 

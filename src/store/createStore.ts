@@ -1,5 +1,5 @@
 import { Store } from 'redux'
-import { createStore as createStoreRedux, IModuleStore } from "redux-dynamic-modules";
+import { createStore as createStoreRedux } from "redux-dynamic-modules";
 import { getSagaExtension, SagaExtensionContext } from "./saga-modular";
 import { Task } from 'redux-saga';
 import { combineReducersWithGlobalActions } from "./hydrate_reducer";
